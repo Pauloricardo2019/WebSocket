@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Go WebSocket Tutorial</title>
+</head>
+<body>
+<div class="main" style="display: flex; flex-direction: column; align-items: center; background-color: burlywood">
+    <h1 style="font-family:sans-serif;">Bem vindo ao chat</h1>
+    <div class="chat-box" style="display: flex">
+    <h3 id="chat-message"></h3>
+    </div>
+    <textarea id="messageToSend" style="border: 1px black; border-radius: 10px; width: 400px"></textarea>
+    <button id="btt" onclick="sendToSocket" style="margin-top: 10px;padding: 10px; color: rosybrown; background-color: black">Enviar mensagem</button>
+</div>
+
+
+<script>
+    let socket = new WebSocket("ws://127.0.0.1:8080/ws");
+    console.log("Attempting Connection...");
+
+
+
+    socket.onopen = () => {
+        console.log("Successfully Connected");
+        const butt = document.getElementById('btt')
+        butt.addEventListener('click', sendMessageToSocket)
+        function sendMessageToSocket(){
+            var message = document.getElementById('messageToSend')
+            //console.log(message.value)
+            socket.send(message.value)
+        }
+
+        //socket.send("Hi From the Client!")
+    };
+
+    socket.onmessage = (event) => {
+        const message = event.data
+        console.log(message)
+        const messageBox = document.getElementById("chat-message")
+        messageBox.innerHTML+=`<h4>${message}</h4>`
+
+    }
+
+    socket.onclose = event => {
+        console.log("Socket Closed Connection: ", event);
+        socket.send("Client Closed!")
+    };
+
+    socket.onerror = error => {
+        console.log("Socket Error: ", error);
+    };
+
+</script>
+</body>
+</html>
