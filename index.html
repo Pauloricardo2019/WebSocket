@@ -8,12 +8,12 @@
 </head>
 <body>
 <div class="main" style="display: flex; flex-direction: column; align-items: center; background-color: burlywood">
-    <h1 style="font-family:sans-serif;">Bem vindo ao chat</h1>
+    <h1 style="font-family:sans-serif">Bem vindo ao chat</h1>
     <div class="chat-box" style="display: flex">
-    <h3 id="chat-message"></h3>
+        <h3 id="chat-message"></h3>
     </div>
     <textarea id="messageToSend" style="border: 1px black; border-radius: 10px; width: 400px"></textarea>
-    <button id="btt" onclick="sendToSocket" style="margin-top: 10px;padding: 10px; color: rosybrown; background-color: black">Enviar mensagem</button>
+    <button id="btt" onclick="sendToSocket" style="margin-top: 10px;padding: 10px; color: #1c1b1b; background-color: #69a87b; border-radius: 20px; h">Enviar mensagem</button>
 </div>
 
 
@@ -31,6 +31,7 @@
             var message = document.getElementById('messageToSend')
             //console.log(message.value)
             socket.send(message.value)
+            message.value = ""
         }
 
         //socket.send("Hi From the Client!")
